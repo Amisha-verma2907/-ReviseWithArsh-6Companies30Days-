@@ -13,15 +13,15 @@ public:
 
 
 //     }
-    void print(vector<int> nums,vector<int> ele,vector<vector<int>>&ans,int ind,int n){
-        if(ind == n){
+    void print(vector<int> nums,vector<int> ele,vector<vector<int>>&ans,int ind){
+        if(ind == nums.size()){
             ans.push_back(ele);
             return;
         }
         ele.push_back(nums[ind]);
-        print(nums,ele,ans,ind+1,n);
+        print(nums,ele,ans,ind+1);
         ele.pop_back();
-        print(nums,ele,ans,ind+1,n);
+        print(nums,ele,ans,ind+1);
         
     }
     vector<vector<int>> subsets(vector<int>& nums) {
@@ -35,7 +35,7 @@ public:
         vector<vector<int>>ans;
         vector<int>ele;
         int n=nums.size();
-        print(nums,ele,ans,0,n);
+        print(nums,ele,ans,0);
         return ans;
 
     }
