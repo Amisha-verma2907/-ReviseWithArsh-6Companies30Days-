@@ -13,7 +13,7 @@ public:
 
 
 //     }
-    void print(vector<int> nums,vector<int> ele,vector<vector<int>>&ans,int ind){
+    void print(vector<int> nums,vector<int> &ele,vector<vector<int>>&ans,int ind){
         if(ind == nums.size()){
             ans.push_back(ele);
             return;
