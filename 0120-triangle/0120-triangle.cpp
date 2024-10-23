@@ -87,24 +87,31 @@ public:
             dp[i] = vector<int>(i + 1, -1);  // Each row i has i+1 elements
         }
         
+         vector<int>prev(m,0);
+        
         for(int j=0;j<triangle[m-1].size();j++)
         {
-            dp[m-1][j] = triangle[m-1][j];
+            //dp[m-1][j] = triangle[m-1][j];
+            prev[j] = triangle[m-1][j];
         }
+        
         
         for(int i=m-2;i>=0;i--)
         {
+            vector<int>cur(m,0);
+            
             for(int j=i;j>=0;j--)
             {
-                int up = dp[i+1][j];
+                int up = prev[j];
                 
-                int dg = dp[i+1][j+1];
+                int dg = prev[j+1];
                 
-                dp[i][j] = triangle[i][j] + min(up,dg);
+                cur[j] = triangle[i][j] + min(up,dg);
             }
+            prev = cur;
         }
         
-        return dp[0][0];
+        return prev[0];
         
         //return findMinPath(triangle, 0, 0,dp);
     }
