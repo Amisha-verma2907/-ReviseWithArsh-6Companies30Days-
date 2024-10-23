@@ -87,6 +87,25 @@ public:
             dp[i] = vector<int>(i + 1, -1);  // Each row i has i+1 elements
         }
         
-        return findMinPath(triangle, 0, 0,dp);
+        for(int j=0;j<triangle[m-1].size();j++)
+        {
+            dp[m-1][j] = triangle[m-1][j];
+        }
+        
+        for(int i=m-2;i>=0;i--)
+        {
+            for(int j=i;j>=0;j--)
+            {
+                int up = dp[i+1][j];
+                
+                int dg = dp[i+1][j+1];
+                
+                dp[i][j] = triangle[i][j] + min(up,dg);
+            }
+        }
+        
+        return dp[0][0];
+        
+        //return findMinPath(triangle, 0, 0,dp);
     }
 };
