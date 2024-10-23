@@ -29,7 +29,6 @@ public:
         // Initialize a DP table with -1
         vector<vector<int>> dp(m, vector<int>(n, -1));
         
-        dp[0][0] = grid[0][0];
         
         for(int i=0;i<m;i++)
         {
