@@ -23,37 +23,77 @@ public:
     }
     
     int minPathSum(vector<vector<int>>& grid) {
+        //Tabulation method
+//         int m = grid.size();
+//         int n = grid[0].size();
+        
+//         // Initialize a DP table with -1
+//         vector<vector<int>> dp(m, vector<int>(n, -1));
+        
+        
+//         for(int i=0;i<m;i++)
+//         {
+//             for(int j=0;j<n;j++){
+//                 if(i==0 && j==0){
+//                     dp[0][0] = grid[0][0];
+//                 }
+//                 else{
+//                     int up = INT_MAX;
+//                     int left = INT_MAX;
+                    
+//                     if(i> 0){
+//                         up = dp[i-1][j];
+//                     }
+//                     if(j>0){
+//                         left = dp[i][j-1];
+//                     }
+                    
+//                     dp[i][j] = grid[i][j] + min(up,left);
+//                 }
+//             }
+//         }
+        
+//         return dp[m-1][n-1];
+        
+        //memoization method
+        // Start the recursive sum calculation from the bottom-right corner
+       // return sum(grid, m - 1, n - 1, dp);
+        
+        
+        //space optimization
+        
         int m = grid.size();
         int n = grid[0].size();
         
         // Initialize a DP table with -1
         vector<vector<int>> dp(m, vector<int>(n, -1));
         
-        
+        vector<int>prev(n,0);
         for(int i=0;i<m;i++)
         {
+            vector<int>temp(n,0);
+            
             for(int j=0;j<n;j++){
                 if(i==0 && j==0){
-                    dp[0][0] = grid[0][0];
+                    temp[0] = grid[0][0];
                 }
                 else{
                     int up = INT_MAX;
                     int left = INT_MAX;
                     
                     if(i> 0){
-                        up = dp[i-1][j];
+                        up = prev[j];
                     }
                     if(j>0){
-                        left = dp[i][j-1];
+                        left = temp[j-1];
                     }
                     
-                    dp[i][j] = grid[i][j] + min(up,left);
+                   temp[j] = grid[i][j] + min(up,left);
                 }
             }
+            prev = temp;
         }
         
-        return dp[m-1][n-1];
-        // Start the recursive sum calculation from the bottom-right corner
-       // return sum(grid, m - 1, n - 1, dp);
+        return prev[n-1];
     }
 };
