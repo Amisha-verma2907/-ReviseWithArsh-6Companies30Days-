@@ -1,24 +1,32 @@
 class Solution {
 public:
-    void combination(vector<vector<int>>&ans,vector<int>&v,vector<int>& candidates,int target,int ind){
-        if(ind == candidates.size()){
-            if(target==0){
-                ans.push_back(v);
-            }
+    void combination(vector<int>& candidates,int target,vector<vector<int>>&ans,vector<int>&ds,int index){
+        if(target == 0)
+        {
+            ans.push_back(ds);
             return;
         }
-        if(candidates[ind]<=target){
-        v.push_back(candidates[ind]);
-        combination(ans,v,candidates,target-candidates[ind],ind);
-        v.pop_back();
+        
+        if(index >= candidates.size()){
+            return;
         }
-        combination(ans,v,candidates,target,ind+1);      
+        
+        //pick element
+        if(candidates[index] <= target){
+        ds.push_back(candidates[index]);
+        combination(candidates,target - candidates[index],ans,ds,index);
+        
+        ds.pop_back();
+        }
+        //not pick
+        combination(candidates,target,ans,ds,index+1);
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>>ans;
-        vector<int>v;
-        combination(ans,v,candidates,target,0); //0->index
-        return ans;
+        vector<int>ds;
         
+        combination(candidates,target,ans,ds,0);
+        
+        return ans;
     }
 };
