@@ -10,8 +10,8 @@
 class Solution {
 public:
     int guessNumber(int n) {
-        int s = 0;
-        int e = n-1;
+        int s = 1;
+        int e = n;
         
         while(s<=e)
         {
@@ -20,14 +20,14 @@ public:
             if(guess(mid) == -1)
             {
                 e = mid -1;
-            }else if(guess(mid) == 1)
-            {
+            }
+            else if(guess(mid)== 1){
                 s = mid + 1;
-            }else{
+            }
+            else{
                 return mid;
             }
-        }
-        
-        return s;
+        } 
+        return -1;
     }
 };
