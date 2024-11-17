@@ -25,14 +25,42 @@ public:
         return 1;
     }
     int countValidSelections(vector<int>& nums) {
-        int cnt = 0;
+        //basic approach
+//         int cnt = 0;
         
+//         for(int i=0;i<nums.size();i++)
+//         {
+//             if(nums[i] == 0)
+//             {
+//                 cnt+= valid(nums,i,true) + valid(nums,i,false);
+//             }
+//         }
+        
+//         return cnt;
+        
+        //optimal approach
+        
+        int lsum = 0;
+        int rsum = 0;
+        for(auto it:nums)
+        {
+            rsum += it;
+        }
+        
+        int cnt =0;
         for(int i=0;i<nums.size();i++)
         {
             if(nums[i] == 0)
             {
-                cnt+= valid(nums,i,true) + valid(nums,i,false);
+                if(lsum == rsum)
+                {
+                    cnt+=2;
+                }else if(abs(lsum-rsum) == 1){
+                    cnt+=1;
+                }
             }
+            lsum+=nums[i];
+            rsum-=nums[i];
         }
         
         return cnt;
