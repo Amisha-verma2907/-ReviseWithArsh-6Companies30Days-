@@ -28,15 +28,49 @@ public:
         return dp[ind][amount] = min(take,notTake);
     }
     int coinChange(vector<int>& coins, int amount) {
+        //tabulation
         int n = coins.size();
-        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
         
-        int ans = coinsAmount(coins,amount,n-1,dp);
+        vector<vector<int>>dp(n,vector<int>(amount+1,0));
         
-        if(ans >= 1e9)
+        for(int T=0;T<=amount;T++)
         {
-            return -1;
+            if(T % coins[0] == 0){
+            dp[0][T] = T/coins[0];
+            }else{
+                dp[0][T] = INT_MAX;
+            }
         }
-        return ans;
+        
+        for(int i=1;i<coins.size();i++)
+        {
+            for(int j = 0;j<=amount;j++)
+            {
+                //notTake
+                int notTake = dp[i-1][j];
+                
+                int take = INT_MAX;
+                if(coins[i] <= j  && dp[i][j - coins[i]] != INT_MAX){
+                take = 1+ dp[i][j -coins[i]];
+                }
+                
+                dp[i][j] = min(take,notTake);
+                
+            }
+        }
+        
+        return dp[n-1][amount] != INT_MAX?dp[n-1][amount] : -1;
+        
+        
+        //         int n = coins.size();
+//         vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+        
+//         int ans = coinsAmount(coins,amount,n-1,dp);
+        
+//         if(ans >= 1e9)
+//         {
+//             return -1;
+//         }
+//         return ans;
     }
 };
