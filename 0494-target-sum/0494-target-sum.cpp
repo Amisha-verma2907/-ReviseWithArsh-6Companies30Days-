@@ -41,34 +41,69 @@ public:
         
 //         return partition(nums,s2,nums.size()-1,dp);
         
-        vector<vector<int>>dp(n,vector<int>(s2+1,0));
+//         vector<vector<int>>dp(n,vector<int>(s2+1,0));
+//         if(nums[0] == 0)
+//         {
+//         dp[0][0] = 2;
+//         }else{
+//             dp[0][0] = 1;
+//         }
+        
+//         if (nums[0] != 0 && nums[0] <= s2)
+//         dp[0][nums[0]] = 1;
+        
+//         for(int i=1;i<n;i++)
+//         {
+//             for(int j=0;j<=s2;j++)
+//             {
+//                 int notTake = dp[i-1][j];
+                
+//                 int take =0 ;
+                
+//                 if(nums[i] <= j){
+//                     take = dp[i-1][j - nums[i]];
+//                 }
+                
+//                 dp[i][j] = take + notTake;
+//             }
+//         }
+        
+//         return dp[n-1][s2];
+        
+        
+        
+        vector<int>prev(s2+1,0);
+        vector<int>cur(s2+1,0);
+        
         if(nums[0] == 0)
         {
-        dp[0][0] = 2;
+        prev[0] = 2;
         }else{
-            dp[0][0] = 1;
+           prev[0] = 1;
         }
         
-        if (nums[0] != 0 && nums[0] <= s2)
-        dp[0][nums[0]] = 1;
+        if (nums[0] != 0 && nums[0] <= s2){
+            prev[nums[0]] = 1;
+        }
         
         for(int i=1;i<n;i++)
         {
             for(int j=0;j<=s2;j++)
             {
-                int notTake = dp[i-1][j];
+                int notTake = prev[j];
                 
                 int take =0 ;
                 
                 if(nums[i] <= j){
-                    take = dp[i-1][j - nums[i]];
+                    take = prev[j - nums[i]];
                 }
                 
-                dp[i][j] = take + notTake;
+                cur[j] = take + notTake;
             }
+            prev = cur;
         }
         
-        return dp[n-1][s2];
+        return prev[s2];
         
     }
     int findTargetSumWays(vector<int>& nums, int target) {
