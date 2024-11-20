@@ -37,9 +37,39 @@ public:
         if((totalSum-target)<0 || (totalSum -target) %2 != 0 ) return 0;
         int n= nums.size();
         
-        vector<vector<int>>dp(n,vector<int>(s2+1,-1));
+//         vector<vector<int>>dp(n,vector<int>(s2+1,-1));
         
-        return partition(nums,s2,nums.size()-1,dp);
+//         return partition(nums,s2,nums.size()-1,dp);
+        
+        vector<vector<int>>dp(n,vector<int>(s2+1,0));
+        if(nums[0] == 0)
+        {
+        dp[0][0] = 2;
+        }else{
+            dp[0][0] = 1;
+        }
+        
+        if (nums[0] != 0 && nums[0] <= s2)
+        dp[0][nums[0]] = 1;
+        
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<=s2;j++)
+            {
+                int notTake = dp[i-1][j];
+                
+                int take =0 ;
+                
+                if(nums[i] <= j){
+                    take = dp[i-1][j - nums[i]];
+                }
+                
+                dp[i][j] = take + notTake;
+            }
+        }
+        
+        return dp[n-1][s2];
+        
     }
     int findTargetSumWays(vector<int>& nums, int target) {
         return TargetSum(target,nums);
