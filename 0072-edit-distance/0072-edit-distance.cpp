@@ -28,38 +28,69 @@ public:
        int n1= word1.size();
        int n2 = word2.size();
         
-        //tabulation
+        //space optimisation
         
-        vector<vector<int>>dp(n1+1,vector<int>(n2+1,0));
-        
-        for(int i=0;i<=n1;i++)
-        {
-            dp[i][0] = i;
-        }
+        vector<int>prev(n2+1,0);
+         vector<int>cur(n2+1,0);
         
          for(int j=0;j<=n2;j++)
         {
-            dp[0][j] = j;
+            prev[j] = j;
         }
         
         
         for(int i=1;i<=n1;i++){
+            cur[0] = i;
             for(int j=1;j<=n2;j++)
             {
                 
             if(word1[i-1] == word2[j-1]){
-                  dp[i][j] = 0 + dp[i-1][j-1];
+                  cur[j] = 0 + prev[j-1];
             }else{
-            int insertO = 1 + dp[i][j-1];
-            int deleteO = 1 + dp[i-1][j];
-            int replace = 1+ dp[i-1][j-1];
+            int insertO = 1 + cur[j-1];
+            int deleteO = 1 + prev[j];
+            int replace = 1 + prev[j-1];
             
-             dp[i][j] = min(insertO,min(deleteO,replace));
+             cur[j] = min(insertO,min(deleteO,replace));
             } 
             }
+            prev = cur;
         }
         
-        return dp[n1][n2];
+        return prev[n2];
+        
+        //tabulation
+        
+//         vector<vector<int>>dp(n1+1,vector<int>(n2+1,0));
+        
+//         for(int i=0;i<=n1;i++)
+//         {
+//             dp[i][0] = i;
+//         }
+        
+//          for(int j=0;j<=n2;j++)
+//         {
+//             dp[0][j] = j;
+//         }
+        
+        
+//         for(int i=1;i<=n1;i++){
+//             for(int j=1;j<=n2;j++)
+//             {
+                
+//             if(word1[i-1] == word2[j-1]){
+//                   dp[i][j] = 0 + dp[i-1][j-1];
+//             }else{
+//             int insertO = 1 + dp[i][j-1];
+//             int deleteO = 1 + dp[i-1][j];
+//             int replace = 1+ dp[i-1][j-1];
+            
+//              dp[i][j] = min(insertO,min(deleteO,replace));
+//             } 
+//             }
+//         }
+        
+//         return dp[n1][n2];
         
         //memoization
 //        vector<vector<int>>dp(n1,vector<int>(n2+1,-1));
