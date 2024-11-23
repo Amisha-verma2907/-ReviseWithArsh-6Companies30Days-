@@ -1,61 +1,61 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int row = grid.size();
-        int col = grid[0].size();
+      queue<pair<int,pair<int,int>>>q;
         
-        queue<pair<pair<int,int>,int>>q;
+      int n = grid.size();
+      int m = grid[0].size();
         
-        int vis[row][col];
-        for(int i=0;i<row;i++)
-        {
-            for(int j=0;j<col;j++)
-            {
-                if(grid[i][j] == 2){
-                    q.push({{i,j},0});
-                    vis[i][j] = 2;
-                }
-                else{
-                    vis[i][j] = 0;
-                }
-            }
-        }
+      vector<vector<int>>vis(n,vector<int>(m,0));
         
-        int r[] = {0,-1,0,1};
-        int c[]= {-1,0,1,0};
+      for(int i=0;i<n;i++)
+      {
+          for(int j=0;j<m;j++)
+          {
+              if(grid[i][j] == 2){
+                  vis[i][j] = 1;
+                  q.push({0,{i,j}});
+              }
+          }
+      }
         
+      int row[] = {-1,0,1,0};
+      int col[] = {0,1,0,-1};
+      
         int tm = 0;
-        while(!q.empty()){
-            int r1 = q.front().first.first;
-            int c1 = q.front().first.second;
-            
-            int t = q.front().second; 
-            
-            tm = max(t,tm);
-            q.pop();
-            for(int i=0;i<4;i++)
-            {
-                int finalRow = r1+r[i];
-                int finalCol = c1+c[i];
-                
-                if(finalRow>=0 && finalRow<row && finalCol >= 0 && finalCol <col && grid[finalRow][finalCol] == 1 && vis[finalRow][finalCol] == 0){
-                    q.push({{finalRow,finalCol},t+1});
-                    vis[finalRow][finalCol] = 2;
-                }
-            }
-        }
+      while(!q.empty()){
+          int t = q.front().first;
+          int r = q.front().second.first;
+          int c = q.front().second.second;
+          
+          tm = max(t,tm);
+          
+          q.pop();
+          for(int i=0;i<4;i++)
+          {
+              int rowi = r + row[i];
+              int coli = c + col[i];
+              
+              if(rowi>=0 && rowi<n && coli >=0 && coli<m && grid[rowi][coli] == 1 && vis[rowi][coli] == 0)
+              {
+                  vis[rowi][coli] = 1;
+                  
+                  q.push({t+1,{rowi,coli}});
+              }
+          }
+      }
         
-        for(int i=0;i<row;i++)
-        {
-            for(int j=0;j<col;j++)
-            {
-                if(vis[i][j] != 2 && grid[i][j] == 1)
-                {
-                    return -1;
-                }
-            }
-        }
+      for(int i=0;i<n;i++)
+      {
+          for(int j=0;j<m;j++)
+          {
+              if(grid[i][j] == 1 && vis[i][j] != 1)
+              {
+                  return -1;
+              }
+          }
+      }
         
-        return tm;
+      return tm;
     }
 };
